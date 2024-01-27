@@ -10,31 +10,22 @@ namespace Ejemplo_1.Controllers
 {
     public class MascotaController : Controller
     {
-        //Establemos la constante para Session, para no tener errores de nombre
-        const string nombreSesion = "ListadoMascota";
+        private MascotasConnection BD;
+        public MascotaController()
+        {
+            BD = new MascotasConnection();
+        }
+        
 
         // GET: Mascota
         public ActionResult Index()
         {
-            if (Session[nombreSesion] == null) //Se valida si es la primera vez
-            {
-                var lista = obtenerMascotas();
-                Session[nombreSesion] = lista;
-                return View(lista);
-            }
-            else
-            {
-                var lista = (List<Mascota>)Session[nombreSesion];
-                List<Mascota> listaOrdenada = lista.OrderBy(x => x.Id).ToList();//Se debe pasar a lista, sino devuelve error de dato Enumerable
-                return View(listaOrdenada); //ordenada por Id
-            }
-            
-            
+            var listado = BD.Mascota.ToList();
+            return View(listado);
         }
         //Este metodo me envia a la vista nuevo(formulario)
         public ActionResult Nuevo()
-        {
-            
+        {            
             return View();
         }
 
@@ -42,9 +33,8 @@ namespace Ejemplo_1.Controllers
         [HttpPost]
         public ActionResult Nuevo(Mascota mascota)
         {
-            var listado = (List<Mascota>)Session[nombreSesion];
-            listado.Add(mascota);
-            Session[nombreSesion] = listado;
+            BD.Mascota.Add(mascota);
+            BD.SaveChanges();
             //Redireccionamos a la vista index para chequear q se agrego
             return RedirectToAction("Index");
         }
@@ -52,28 +42,29 @@ namespace Ejemplo_1.Controllers
         //1ºmetodo Actualizar, pinta la pagina y recibe el objeto
         [HttpGet]
         public ActionResult Actualizar(int id)
-        {
-            var lista = (List<Mascota>)Session[nombreSesion];
-            var mascota = lista.FirstOrDefault(x => x.Id == id);
+        {            
+            var mascota = BD.Mascota.FirstOrDefault(x => x.Id == id);
             return View(mascota);
         }
         //2ºmetodo Actualizar, postea los cambios del objeto modificado
         [HttpPost]
         public ActionResult Actualizar(Mascota mascota)
-        {
-            var lista = (List<Mascota>)Session[nombreSesion];
-            var mascotaActual = lista.FirstOrDefault(x => x.Id == mascota.Id);
-            lista.Remove(mascotaActual);
-            lista.Add(mascota);
+        {            
+            var mascotaActual = BD.Mascota.FirstOrDefault(x => x.Id == mascota.Id);
+            mascotaActual.Edad = mascota.Edad;
+            mascotaActual.Nombre = mascota.Nombre;
+            mascotaActual.Raza = mascota.Raza;
+            mascotaActual.NombreDueno = mascota.NombreDueno;
+            BD.SaveChanges();
             return RedirectToAction("Index");
         }
 
         [HttpGet]
         public ActionResult Eliminar(int id)
         {
-            var lista = (List<Mascota>)Session[nombreSesion];
-            var mascotaAEliminar = lista.FirstOrDefault(x=>x.Id == id);
-            lista.Remove(mascotaAEliminar);
+            var mascotaAEliminar = BD.Mascota.FirstOrDefault(x=>x.Id==id);
+            BD.Mascota.Remove(mascotaAEliminar);
+            BD.SaveChanges();
             return RedirectToAction("Index");
         }
         private List<Mascota> obtenerMascotas()
