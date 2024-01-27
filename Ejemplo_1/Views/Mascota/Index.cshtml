@@ -30,8 +30,8 @@
                 <td>@mascota.Edad</td>
                 <td>@mascota.NombreDueno</td>
                 <td>
-                    <a href="#" class="btn btn-primary">Actualizar</a>
-                    <a href="#" class="btn btn-danger">Eliminar</a>
+                    <a href="@Url.Action("Actualizar","Mascota", new {id=@mascota.Id})" class="btn btn-primary">Actualizar</a>
+                    <a href="@Url.Action("Eliminar", "Mascota", new { id = @mascota.Id })" class="btn btn-danger">Eliminar</a>
                 </td>
             </tr>
         }

@@ -5,6 +5,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
+
 namespace Ejemplo_1.Controllers
 {
     public class MascotaController : Controller
@@ -24,7 +25,8 @@ namespace Ejemplo_1.Controllers
             else
             {
                 var lista = (List<Mascota>)Session[nombreSesion];
-                return View(lista);
+                List<Mascota> listaOrdenada = lista.OrderBy(x => x.Id).ToList();//Se debe pasar a lista, sino devuelve error de dato Enumerable
+                return View(listaOrdenada); //ordenada por Id
             }
             
             
@@ -44,6 +46,34 @@ namespace Ejemplo_1.Controllers
             listado.Add(mascota);
             Session[nombreSesion] = listado;
             //Redireccionamos a la vista index para chequear q se agrego
+            return RedirectToAction("Index");
+        }
+
+        //1ºmetodo Actualizar, pinta la pagina y recibe el objeto
+        [HttpGet]
+        public ActionResult Actualizar(int id)
+        {
+            var lista = (List<Mascota>)Session[nombreSesion];
+            var mascota = lista.FirstOrDefault(x => x.Id == id);
+            return View(mascota);
+        }
+        //2ºmetodo Actualizar, postea los cambios del objeto modificado
+        [HttpPost]
+        public ActionResult Actualizar(Mascota mascota)
+        {
+            var lista = (List<Mascota>)Session[nombreSesion];
+            var mascotaActual = lista.FirstOrDefault(x => x.Id == mascota.Id);
+            lista.Remove(mascotaActual);
+            lista.Add(mascota);
+            return RedirectToAction("Index");
+        }
+
+        [HttpGet]
+        public ActionResult Eliminar(int id)
+        {
+            var lista = (List<Mascota>)Session[nombreSesion];
+            var mascotaAEliminar = lista.FirstOrDefault(x=>x.Id == id);
+            lista.Remove(mascotaAEliminar);
             return RedirectToAction("Index");
         }
         private List<Mascota> obtenerMascotas()

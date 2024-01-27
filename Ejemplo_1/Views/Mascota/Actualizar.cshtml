@@ -1,0 +1,40 @@
+﻿@model Ejemplo_1.Models.Mascota
+@{
+    ViewBag.Title = "Actualizar";
+}
+
+<h2>Actualizar Mascota</h2>
+
+
+
+<form action="@Url.Action("Actualizar","Mascota")" method="post">
+    <div class="row">
+        <div class="col-6">
+            <div class="mb-3 form-group">
+                <label>Id</label>
+                @Html.TextBoxFor(x => x.Id, new { @class = "form-control", @required = "required" })
+            </div>
+            <div class="mb-2 form-group">
+                <label>Nombre</label>
+                @Html.TextBoxFor(x => x.Nombre, new { @class = "form-control", @required = "required" })
+            </div>
+            <div class="mb-3 form-group">
+                <label>Raza</label>
+                @Html.TextBoxFor(x => x.Raza, new { @class = "form-control", @required = "required" })
+            </div>
+            <div class="mb-3 form-group">
+                <label>Edad</label>
+                @Html.TextBoxFor(x => x.Edad, new { @class = "form-control", @required = "required" })
+            </div>
+            <div class="mb-3 form-group">
+                <label>Dueño</label>
+                @Html.TextBoxFor(x => x.NombreDueno, new { @class = "form-control", @required = "required" })
+            </div>
+            <div>
+                <input type="submit" class="btn btn-primary" value="Guardar" />
+                <a href="@Url.Action("Index","Mascota")" class="btn btn-danger">Regresar</a>
+            </div>
+        </div>
+    </div>
+</form>
+

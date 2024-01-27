@@ -179,6 +179,7 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Mascota\Index.cshtml" />
     <Content Include="Views\Mascota\Nuevo.cshtml" />
+    <Content Include="Views\Mascota\Actualizar.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
