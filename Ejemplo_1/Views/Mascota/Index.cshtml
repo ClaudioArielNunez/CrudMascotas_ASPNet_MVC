@@ -1,0 +1,40 @@
+﻿@model List<Ejemplo_1.Models.Mascota>
+@{
+    ViewBag.Title = "Index";
+}
+
+<div class="d-flex justify-content-between">
+    <h2>Listado de Mascotas</h2>
+    <a href="@Url.Action("Nuevo","Mascota")" class="btn btn-success">Nuevo</a>
+</div>
+
+<hr />
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">Id</th>
+            <th scope="col">Nombre</th>
+            <th scope="col">Raza</th>
+            <th scope="col">Edad</th>
+            <th scope="col">Nombre Dueño</th>
+            <th scope="col">Accion</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var mascota in Model)
+        {
+            <tr>
+                <th scope="row">@mascota.Id</th>
+                <td>@mascota.Nombre</td>
+                <td>@mascota.Raza</td>
+                <td>@mascota.Edad</td>
+                <td>@mascota.NombreDueno</td>
+                <td>
+                    <a href="#" class="btn btn-primary">Actualizar</a>
+                    <a href="#" class="btn btn-danger">Eliminar</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
