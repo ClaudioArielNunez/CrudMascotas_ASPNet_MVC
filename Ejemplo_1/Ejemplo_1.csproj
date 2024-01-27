@@ -210,6 +210,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="RepoImg\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
